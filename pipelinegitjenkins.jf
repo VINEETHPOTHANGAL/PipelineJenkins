@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    environment{
+        def pathname = "c:\\Devops"
+    }
+    parameters{
+        string(name:'CreateFolder',defaultValue:'',description:'enter folder name')
+        string(name:'CreateFile',defaultValue:'',description:'enter file name')
+        string(name:'CreateContent',defaultValue:'',description:'enter fie content')
+    }
+    stages {
+        stage('Hello') {
+            steps {
+                script{
+                 echo 'Hello World' 
+                 bat """
+                    cd ${env.pathname}
+                    mkdir ${params.CreateFolder}
+                    cd ${params.CreateFolder}
+                    git clone https://VINEETHPOTHANGAL:Onevin19@github.com/Subusam/Testrepo_jan21.git
+                    cd Testrepo_jan21
+                    git config --global user.name \"VINEETHPOTHANGAL\"
+                    git config --global user.email \"vinithvin95@gmail.com\"
+                    
+                    echo ${params.CreateContent} > ${params.CreateFile}.txt
+                    git add .
+                    git commit -a -m \"task1\"
+                    git push
+
+                 """
+                }
+            }
+        }
+    }
+}
